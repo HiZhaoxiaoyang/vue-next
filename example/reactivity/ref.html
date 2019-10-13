@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ref</title>
+</head>
+<body>
+    <script src="../../packages/reactivity/dist/reactivity.global.js"></script>
+    <script>
+        // console.log(VueObserver)
+
+        // const a = VueObserver.ref(1)
+        // console.log(a, a.value)
+        // a.value = 2
+        
+
+
+        // const a = VueObserver.ref(1)
+        // let dummy
+        // VueObserver.effect(() => {
+        //     dummy = a.value
+        // })
+        // a.value = 2
+
+
+
+        // const a = VueObserver.ref({ count: 1 })
+        // let dummy
+        // VueObserver.effect(() => {
+        //     dummy = a.value.count
+        // })
+        // a.value.count = 2
+
+
+
+        // const r = VueObserver.ref(1)
+        // console.log(VueObserver.isRef(r))
+        // const c = VueObserver.computed(() => 1)
+        // console.log(VueObserver.isRef(c))
+        // console.log(VueObserver.isRef(0))
+        // console.log(VueObserver.isRef(1))
+        // console.log(VueObserver.isRef({value: 0}))
+
+
+
+        // const a = VueObserver.ref(1)
+        // const obj = VueObserver.reactive({
+        //     a,
+        //     b: {
+        //         c: a,
+        //         d: [a]
+        //     }
+        // })
+        // let dummy1, dummy2, dummy3
+        // VueObserver.effect(() => {
+        //     dummy1 = obj.a
+        //     dummy2 = obj.b.c
+        //     dummy3 = obj.b.d[0]
+        // })
+        // a.value++
+        // obj.a++
+
+
+
+        // const a = {
+        //     b: VueObserver.ref(0)
+        // }
+        // const c = VueObserver.ref(a)
+        // c.value.b + 1
+
+
+
+        // const a = VueObserver.reactive({
+        //     x: 1,
+        //     y: 2
+        // })
+        // console.log(a)
+
+
+
+        // const { x, y } = VueObserver.toRefs(a)
+        // console.log(x, y)
+        // console.log(VueObserver.isRef(x))
+        // console.log(VueObserver.isRef(y))
+        // console.log(x.value)
+        // console.log(y.value)
+
+        // a.x = 2
+        // a.y = 3
+        // console.log(x.value)
+        // console.log(y.value)
+
+        // x.value = 3
+        // y.value = 4
+        // console.log(a.x)
+        // console.log(a.y)
+
+        // let dummyX, dummyY
+        // VueObserver.effect(() => {
+        //     dummyX = x.value
+        //     dummyY = y.value
+        // })
+        // console.log(dummyX === x.value)
+        // console.log(dummyY === y.value)
+
+        // a.x = 4
+        // a.y = 5
+        // console.log(dummyX === 4)
+        // console.log(dummyY === 5)
+
+
+
+
+
+
+        
+    </script>
+</body>
+</html>

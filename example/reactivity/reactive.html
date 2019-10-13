@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>reactive</title>
+</head>
+<body>
+    <script src="../../packages/reactivity/dist/reactivity.global.js"></script>
+    <script>
+        // Object
+        
+        // const original = { foo: 1 }
+        // const observed = VueObserver.reactive(original)
+        // console.log(original === observed)
+        // console.log(VueObserver.isReactive(observed))
+        // console.log(VueObserver.isReactive(original))
+        // console.log(observed.foo)
+        // console.log('foo' in observed)
+        // console.log(Object.keys(observed))
+
+
+
+
+        // Array
+        
+        // const original = [{ foo: 1 }]
+        // const observed = VueObserver.reactive(original)
+        // console.log(original === observed)
+        // console.log(VueObserver.isReactive(observed))
+        // console.log(VueObserver.isReactive(original))
+        // console.log(VueObserver.isReactive(observed[0]))
+        // console.log(observed[0].foo)
+        // console.log(0 in observed)
+        // console.log(Object.keys(observed))
+
+
+
+
+        // cloned reactive Array should point to observed values
+
+        // const original = [{ foo: 1 }]
+        // const observed = VueObserver.reactive(original)
+        // const clone = observed.slice()
+        // console.log(VueObserver.isReactive(clone[0]))
+        // console.log(clone[0] === original[0])
+        // console.log(clone[0] === observed[0])
+
+
+
+
+        // nested reactives
+
+        // const original = {
+        //     nested: {
+        //         foo: 1
+        //     },
+        //     array: [{ bar: 2 }]
+        // }
+        // const observed = VueObserver.reactive(original)
+        // console.log(VueObserver.isReactive(observed.nested))
+        // console.log(VueObserver.isReactive(observed.array))
+        // console.log(VueObserver.isReactive(observed.array[0]))
+
+
+
+
+
+        // observed value should proxy mutations to original (Object)
+
+        // const original = { foo: 1 }
+        // const observed = VueObserver.reactive(original)
+        // observed.bar = 1
+        // console.log(observed.bar)
+        // console.log(original.bar)
+        // delete observed.foo
+        // console.log('foo' in observed)
+        // console.log('foo' in original)
+
+        // custom
+        // const original = { foo: 1 }
+        // const observed = VueObserver.reactive(original)
+        // original.bar = 1
+        // console.log(observed.bar)
+        // console.log(original.bar)
+        // delete original.foo
+        // console.log('foo' in observed)
+        // console.log('foo' in original)
+
+
+
+
+
+        // observed value should proxy mutations to original (Array)
+
+        const original = [{ foo: 1 }, { bar: 2 }]
+        const observed = VueObserver.reactive(original)
+        const value = { baz: 3 }
+        const reactiveValue = VueObserver.reactive(value)
+        observed[0] = value
+        console.log(observed[0] === reactiveValue)
+        console.log(original[0] === value)
+        delete observed[0]
+        console.log(observed[0])
+        console.log(original[0])
+        observed.push(value)
+        console.log(observed[2] === reactiveValue)
+        console.log(original[2] === value)
+
+
+
+
+
+        // setting a property with an unobserved value should wrap with reactive
+
+        // const observed = VueObserver.reactive({})
+        // const raw = {}
+        // observed.foo = raw
+        // console.log(observed.foo === raw)
+        // console.log(VueObserver.isReactive(observed.foo))
+
+
+
+
+
+        // observing already observed value should return same Proxy
+        
+        // const original = { foo: 1 }
+        // const observed = VueObserver.reactive(original)
+        // const observed2 = VueObserver.reactive(observed)
+        // console.log(observed2 === observed)
+
+
+
+
+
+        // observing the same value multiple times should return same Proxy
+
+        // const original = { foo: 1 }
+        // const observed = VueObserver.reactive(original)
+        // const observed2 = VueObserver.reactive(original)
+        // console.log(observed2 === observed)
+
+
+
+
+
+        // should not pollute original object with Proxies
+
+        // const original = { foo: 1 }
+        // const original2 = { bar: 2 }
+        // const observed = VueObserver.reactive(original)
+        // const observed2 = VueObserver.reactive(original2)
+        // observed.bar = observed2
+        // console.log(observed.bar === observed2)
+        // console.log(original.bar === original2)
+
+
+
+
+
+        // unwrap
+
+        // const original = { foo: 1 }
+        // const observed = VueObserver.reactive(original)
+        // console.log(VueObserver.toRaw(observed) === original)
+        // console.log(VueObserver.toRaw(original) === original)
+
+
+
+
+
+        // non-observable values
+
+        // const assertValue = (value) => {
+        //     VueObserver.reactive(value)
+        //     console.log(`value cannot be made reactive: ${String(value)}`)
+        // }
+        // assertValue(1)
+        // assertValue('foo')
+        // assertValue(false)
+        // assertValue(null)
+        // assertValue(undefined)
+        // const s = Symbol()
+        // assertValue(s)
+
+        // const p = Promise.resolve()
+        // console.log(VueObserver.reactive(p) === p)
+
+        // const r = new RegExp('')
+        // console.log(VueObserver.reactive(r) === r)
+
+        // const d = new Date()
+        // console.log(VueObserver.reactive(d) === d)
+
+
+
+
+
+        // markNonReactive
+
+        // const obj = VueObserver.reactive({
+        //     foo: { a: 1 },
+        //     bar: VueObserver.markNonReactive({ b: 2 })
+        // })
+        // console.log(VueObserver.isReactive(obj.foo) === true)
+        // console.log(VueObserver.isReactive(obj.bar) === false)
+
+
+        // custom
+        // var obj = { a: 1, b: 2 }
+        // var p = new Proxy(obj, {
+        //     get: function (target, key, receiver) {
+        //         console.log(`getting ${key}!`)
+        //         return Reflect.get(target, key, receiver)
+        //     },
+        //     set: function (target, key, value, receiver) {
+        //         console.log(`setting ${key}!`)
+        //         return Reflect.set(target, key, value, receiver)
+        //     }
+        // })
+
+
+
+    </script>
+</body>
+</html>
