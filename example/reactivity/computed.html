@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>computed</title>
+</head>
+<body>
+    <script src="../../packages/reactivity/dist/reactivity.global.js"></script>
+    <script>
+        const { computed, reactive, effect, stop, ref, WritableComputedRef } = VueObserver
+        
+        // should return updated value
+
+        // const value = reactive({})
+        // const cValue = computed(() => {
+        //     return value.foo
+        // })
+        // console.log(cValue.value)
+        // value.foo = 1
+        // console.log(cValue.value)
+
+
+
+
+
+
+        // should compute lazily
+
+        const value = reactive({})
+        const getter = () => {
+            return value.foo
+        }
+        const cValue = computed(getter)
+
+        // getter没被调用
+        console.log(cValue.value)
+        // getter调用1次
+
+        console.log(cValue.value)
+        // getter不会执行 因为 dirty是false
+
+        value.foo = 1
+        // getter 不会调用,等到下次value.foo求值时才会调用
+
+        console.log(value.foo)
+        // getter 调用1次
+
+        console.log(cValue.value)
+        // getter 调用1次
+        
+        
+    </script>
+</body>
+</html>
