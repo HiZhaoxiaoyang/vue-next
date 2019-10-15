@@ -28,27 +28,96 @@
 
         // should compute lazily
 
-        const value = reactive({})
-        const getter = () => {
+        // const value = reactive({})
+        // const getter = () => {
+        //     return value.foo
+        // }
+        // const cValue = computed(getter)
+
+        // // getter没被调用
+        // console.log(cValue.value)
+        // // getter调用1次
+
+        // console.log(cValue.value)
+        // // getter不会执行 因为 dirty是false
+
+        // value.foo = 1
+        // // getter 不会调用,等到下次value.foo求值时才会调用
+
+        // console.log(value.foo)
+        // // getter 调用1次
+
+        // console.log(cValue.value)
+        // // getter 调用1次
+
+
+
+
+
+        // should trigger effect
+
+        // const value = reactive({})
+        // const cValue = computed(() => {
+        //     return value.foo
+        // })
+        // let dummy
+        // effect(() => {
+        //     dummy = cValue.value
+        // })
+        // console.log(dummy)
+        // value.foo = 1
+        // console.log(dummy)
+
+
+
+
+
+
+        // should work when chained
+
+        // const value = reactive({ foo: 0 })
+        // const c1 = computed(() => {
+        //     return value.foo
+        // })
+        // const c2 = computed(() => {
+        //     return c1.value + 1
+        // })
+        // console.log(c2.value)
+        // console.log(c1.value)
+
+        // value.foo++
+        // console.log(c2.value)
+        // console.log(c1.value)
+
+
+
+
+
+
+        // should trigger effect when chained
+
+        const value = reactive({ foo: 0 })
+        const getter1 = () => {
             return value.foo
         }
-        const cValue = computed(getter)
+        const getter2 = () => {
+            return c1.value + 1
+        }
+        const c1 = computed(getter1)
+        const c2 = computed(getter2)
 
-        // getter没被调用
-        console.log(cValue.value)
-        // getter调用1次
+        let dummy
+        effect(() => {
+            dummy = c2.value
+        })
 
-        console.log(cValue.value)
-        // getter不会执行 因为 dirty是false
+        console.log(dummy)
+        // getter1 getter2 各调用一次
 
-        value.foo = 1
-        // getter 不会调用,等到下次value.foo求值时才会调用
+        value.foo++
+        console.log(dummy)
+        // getter1 getter2 各调用一次
 
-        console.log(value.foo)
-        // getter 调用1次
-
-        console.log(cValue.value)
-        // getter 调用1次
         
         
     </script>
