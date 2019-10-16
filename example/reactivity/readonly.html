@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>readonly</title>
+</head>
+<body>
+    <script src="../../packages/reactivity/dist/reactivity.global.js"></script>
+    <script>
+        const {
+            reactive,
+            readonly,
+            toRaw,
+            isReactive,
+            isReadonly,
+            markNonReactive,
+            markReadonly,
+            lock,
+            unlock,
+            effect,
+            ref
+        } = VueObserver
+
+
+
+
+        // should make nested values readonly
+
+        const original = { foo: 1, bar: { baz: 2 } }
+        const observed = readonly(original)
+        console.log(observed === original)
+        console.log(isReactive(observed))
+        console.log(isReadonly(observed))
+        console.log(isReactive(original))
+        console.log(isReadonly(original))
+        console.log(isReactive(observed.bar))
+        console.log(isReadonly(observed.bar))
+        console.log(isReactive(original.bar))
+        console.log(isReadonly(original.bar))
+        // get
+        console.log(observed.foo)
+        // has
+        console.log('foo' in observed)
+        // ownKeys
+        console.log(Object.keys(observed) === ['foo', 'bar'])
+
+        
+    </script>
+</body>
+</html>

@@ -96,30 +96,137 @@
 
         // should trigger effect when chained
 
-        const value = reactive({ foo: 0 })
-        const getter1 = () => {
-            return value.foo
-        }
-        const getter2 = () => {
-            return c1.value + 1
-        }
-        const c1 = computed(getter1)
-        const c2 = computed(getter2)
+        // const value = reactive({ foo: 0 })
+        // const getter1 = () => {
+        //     return value.foo
+        // }
+        // const getter2 = () => {
+        //     return c1.value + 1
+        // }
+        // const c1 = computed(getter1)
+        // const c2 = computed(getter2)
 
-        let dummy
-        effect(() => {
-            dummy = c2.value
-        })
+        // let dummy
+        // effect(() => {
+        //     dummy = c2.value
+        // })
 
-        console.log(dummy)
-        // getter1 getter2 各调用一次
+        // console.log(dummy)
+        // // getter1 getter2 各调用一次
 
-        value.foo++
-        console.log(dummy)
-        // getter1 getter2 各调用一次
+        // value.foo++
+        // console.log(dummy)
+        // // getter1 getter2 各调用一次
 
         
-        
+
+
+
+
+        // should trigger effect when chained (mixed invocations)
+
+        // const value = reactive({ foo: 0 })
+        // const getter1 = () => {
+        //     return value.foo
+        // }
+        // const getter2 = () => {
+        //     return c1.value + 1
+        // }
+        // const c1 = computed(getter1)
+        // const c2 = computed(getter2)
+
+        // let dummy
+        // effect(() => {
+        //     dummy = c1.value + c2.value
+        // })
+        // console.log(dummy)
+        // // getter1 getter2 各调用一次
+
+        // value.foo++
+        // console.log(dummy)
+        // // getter1 getter2 各调用一次
+
+
+
+
+
+
+        // should no longer update when stopped
+
+        // const value = reactive({})
+        // const cValue = computed(() => {
+        //     return value.foo
+        // })
+        // let dummy
+        // effect(() => {
+        //     dummy = cValue.value
+        // })
+        // console.log(dummy)
+
+        // value.foo = 1
+        // console.log(dummy)
+        // stop(cValue.effect)
+        // value.foo = 2
+        // console.log(dummy)
+
+
+
+
+
+
+
+        // should support setter
+
+        // const n = ref(1)
+        // const plusOne = computed({
+        //     get: () => {
+        //         return n.value + 1
+        //     },
+        //     set: val => {
+        //         n.value = val - 1
+        //     }
+        // })
+
+        // console.log(plusOne.value)
+        // n.value++
+        // console.log(plusOne.value)
+        // plusOne.value = 0
+        // console.log(n.value)
+
+
+
+
+
+
+        // should trigger effect w/ setter
+
+        // const n = ref(1)
+        // const plusOne = computed({
+        //     get: () => {
+        //         return n.value + 1
+        //     },
+        //     set: val => {
+        //         n.value = val - 1
+        //     }
+        // })
+
+        // let dummy
+        // effect(() => {
+        //     dummy = n.value
+        // })
+
+        // console.log(dummy)
+        // plusOne.value = 0
+        // console.log(dummy)
+
+
+
+
+
+
+        // should warn if trying to set a readonly computed
+
+        // Type cast to prevent TS from preventing the error
     </script>
 </body>
 </html>
