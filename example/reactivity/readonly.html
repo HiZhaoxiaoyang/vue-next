@@ -28,23 +28,117 @@
 
         // should make nested values readonly
 
-        const original = { foo: 1, bar: { baz: 2 } }
-        const observed = readonly(original)
-        console.log(observed === original)
-        console.log(isReactive(observed))
-        console.log(isReadonly(observed))
-        console.log(isReactive(original))
-        console.log(isReadonly(original))
-        console.log(isReactive(observed.bar))
-        console.log(isReadonly(observed.bar))
-        console.log(isReactive(original.bar))
-        console.log(isReadonly(original.bar))
-        // get
-        console.log(observed.foo)
-        // has
-        console.log('foo' in observed)
-        // ownKeys
-        console.log(Object.keys(observed) === ['foo', 'bar'])
+        // const original = { foo: 1, bar: { baz: 2 } }
+        // const observed = readonly(original)
+        // console.log(observed === original)
+        // console.log(isReactive(observed))
+        // console.log(isReadonly(observed))
+        // console.log(isReactive(original))
+        // console.log(isReadonly(original))
+        // console.log(isReactive(observed.bar))
+        // console.log(isReadonly(observed.bar))
+        // console.log(isReactive(original.bar))
+        // console.log(isReadonly(original.bar))
+        // // get
+        // console.log(observed.foo)
+        // // has
+        // console.log('foo' in observed)
+        // // ownKeys
+        // console.log(Object.keys(observed) === ['foo', 'bar'])
+
+
+
+
+
+
+        // should not allow mutation
+
+        // const qux = Symbol('qux')
+        // const original = {
+        //     foo: 1,
+        //     bar: {
+        //         baz: 2
+        //     },
+        //     [qux]: 3
+        // }
+        // const observed = readonly(original)
+
+        // observed.foo = 2 // Set operation on key "foo" failed: target is readonly.
+        // console.log(observed.foo)
+
+        // observed.bar.baz = 3 // Set operation on key "baz" failed: target is readonly.
+        // console.log(observed.bar.baz)
+
+        // observed[qux] = 4 // Set operation on key "Symbol(qux)" failed: target is readonly.
+        // console.log(observed[qux]) 
+
+        // delete observed.foo // Delete operation on key "foo" failed: target is readonly.
+        // console.log(observed.foo)
+
+        // delete observed.bar.baz // Delete operation on key "baz" failed: target is readonly.
+        // console.log(observed.bar.baz)
+
+        // delete observed[qux] // Delete operation on key "Symbol(qux)" failed: target is readonly.
+        // console.log(observed[qux])
+
+
+
+
+
+
+
+        // should allow mutation when unlocked
+
+        // const observed = readonly({ foo: 1, bar: { baz: 2 } })
+        // unlock()
+        // observed.prop = 2
+        // observed.bar.qux = 3
+        // delete observed.bar.baz
+        // delete observed.foo
+        // lock()
+        // console.log(observed.prop)
+        // console.log(observed.foo)
+        // console.log(observed.bar.qux)
+        // console.log('baz' in observed.bar)
+        // console.log(`调用 unlock方法后, 给 observed 设置属性值或者增加属性值时不会报警告`)
+
+
+
+
+
+
+
+        // should not trigger effects when locked
+
+        // const observed = readonly({ a: 1 })
+        // let dummy
+        // effect(() => {
+        //     dummy = observed.a
+        // })
+        // console.log(dummy)
+        // observed.a = 2 // Set operation on key "a" failed: target is readonly
+        // console.log(observed.a)
+        // console.log(dummy)
+
+
+
+
+
+
+        // should trigger effects when unlocked
+
+        const observed = readonly({ a: 1 })
+        let dummy
+        effect(() => {
+            dummy = observed.a
+        })
+        console.log(dummy)
+        unlock()
+        observed.a = 2 // 可以设值了
+        lock()
+        console.log(observed.a)
+        console.log(dummy)
+
 
         
     </script>
